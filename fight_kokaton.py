@@ -190,8 +190,6 @@ def main():
                     kc += 1
                     break
 
-            
-
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         pg.display.update()
@@ -202,8 +200,3 @@ if __name__ == "__main__":
     main()
     pg.quit()
     sys.exit()
-
-"""
-branch test majikayo sugeeya
-woooo
-"""
