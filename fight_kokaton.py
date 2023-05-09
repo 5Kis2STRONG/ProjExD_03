@@ -123,6 +123,26 @@ class Bomb:
         self._rct.move_ip(self._vx, self._vy)
         screen.blit(self._img, self._rct)
 
+class Explosion:
+
+    def __init__(self, bomb: Bomb):
+        self._imgs = [pg.image.load("ex03/fig/explosion.gif"), pg.transform.flip(pg.image.load("ex03/fig/explosion.gif"), True, False)]
+        self._img = self._imgs[0]
+        self._rct = self._img.get_rect()
+        self._rct.center = bomb._rct.center
+        self._life = 100
+
+    def update(self, screen: pg.Surface):
+        for i in self._life:
+            if i % 2 == 0:
+                self._img = self._imgs[0]
+                screen.blit(self._img, self._rct)
+            if i % 2 == 1:
+                self._img = self._imgs[1]
+                screen.blit(self._img, self._rct)
+
+
+
 class Beam:
     """
     こうかとんがビーム発射する力を得る
@@ -150,6 +170,7 @@ def main():
 
     bird = Bird(3, (900, 400))
     bombs = [Bomb() for _ in range(NUM_OF_BOMBS)]
+    broken = []
     beam = None
 
     tmr = 0
@@ -181,6 +202,7 @@ def main():
                 if beam._rct.colliderect(bomb._rct):
                     beam = None
                     del bombs[i]
+                
                     bird.change_img(6, screen)
                     break
 
