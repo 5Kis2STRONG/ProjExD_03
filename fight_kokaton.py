@@ -73,13 +73,18 @@ class Bird:
         引数1 key_lst：押下キーの真理値リスト
         引数2 screen：画面Surface
         """
+        sum_mv = [0, 0]
         for k, mv in __class__._delta.items():
             if key_lst[k]:
                 self._rct.move_ip(mv)
+                sum_mv[0] += mv[0]  # 横方向合計
+                sum_mv[1] += mv[1]  # 縦方向合計
         if check_bound(screen.get_rect(), self._rct) != (True, True):
             for k, mv in __class__._delta.items():
                 if key_lst[k]:
                     self._rct.move_ip(-mv[0], -mv[1])
+        if not (sum_mv[0] == 0 and sum_mv[1] == 0):
+            self._img = self._imgs[tuple(sum_mv)]  # 押されたキーの合計値
         screen.blit(self._img, self._rct)
 
 
