@@ -4,10 +4,10 @@ import time
 
 import pygame as pg
 
-
 WIDTH = 1600  # ゲームウィンドウの幅
 HEIGHT = 900  # ゲームウィンドウの高さ
 NUM_OF_BOMBS = 5  # 爆弾の数
+
 
 
 def check_bound(area: pg.Rect, obj: pg.Rect) -> tuple[bool, bool]:
@@ -153,8 +153,10 @@ def main():
     beam = None
 
     tmr = 0
+    kc = 0
     while True:
         for event in pg.event.get():
+            font = pg.font.Font(None, 80)
             if event.type == pg.QUIT:
                 return
             if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
@@ -170,6 +172,9 @@ def main():
                 pg.display.update()
                 time.sleep(1)
                 return
+        
+        text = font.render("KillCount :" + str(kc), True, (255, 255, 255), (0, 0, 0))
+        screen.blit(text, (1000,100))
 
         if beam is not None:
             beam.update(screen)
@@ -182,7 +187,10 @@ def main():
                     beam = None
                     del bombs[i]
                     bird.change_img(6, screen)
+                    kc += 1
                     break
+
+            
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
